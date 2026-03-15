@@ -26,10 +26,16 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-<!-- Pre-compiled, no Babel needed -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.469.0/umd/lucide.min.js"></script>
 
 <script>
+// Wait for all scripts to load before initializing
+function initApp() {
+  if (typeof React === 'undefined' || typeof ReactDOM === 'undefined' || typeof lucide === 'undefined') {
+    setTimeout(initApp, 50);
+    return;
+  }
+
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
@@ -2490,7 +2496,16 @@ function ParallaxProduct() {
     }
   }, "Patent Pending"))));
 }
-ReactDOM.createRoot(document.getElementById("root")).render(/*#__PURE__*/React.createElement(ParallaxProduct, null));
+
+  ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(ParallaxProduct, null));
+}
+
+// Trigger init after DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
 </script>
 </body>
 </html>
